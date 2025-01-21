@@ -3,23 +3,37 @@ import React, { useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore'
 import { Link } from 'react-router-dom'
 import AuthImagePattern from '../components/AuthImagePattern'
+import toast from 'react-hot-toast'
 
 const SignupPage = () => {
-  const { isSigningUp } = useAuthStore()
+  const { signup, isSigningUp } = useAuthStore()
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     password: ''
   })
-
+  
   const changeHandler = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setFormData({ ...formData, 
+      [e.target.name]: e.target.value })
   }
+
+  const validateForm = () => {
+    if (!formData.name.trim()) return toast.error("Full name is required");
+    if (!formData.email.trim()) return toast.error("Email is required");
+    if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format");
+    if (!formData.password) return toast.error("Password is required");
+    if (formData.password.length < 6) return toast.error("Password must be at least 6 characters");
+
+    return true;
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(formData)
+    const success = validateForm();
+
+    if(success === true) signup(formData);
   }
 
   return (
@@ -54,8 +68,8 @@ const SignupPage = () => {
                   type="text"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="John Doe"
-                  name='fullName'
-                  value={formData.fullName}
+                  name='name'
+                  value={formData.name}
                   onChange={changeHandler}
                 />
               </div>
