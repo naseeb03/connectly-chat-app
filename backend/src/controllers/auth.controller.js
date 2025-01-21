@@ -29,8 +29,7 @@ export const login = async (req, res) => {
             email: user.email,
             profilePic: user.profilePic,
         });
-    }
-    catch (error) {
+    } catch (error) {
         console.log("Error in Login route: ", error);
         res.status(500).json({ message: "Internal server error" });
     }
@@ -73,8 +72,7 @@ export const signup = async (req, res) => {
                 profilePic: newUser.profilePic,
             });
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.log("Error in signup route: ", error);
         res.status(500).json({ message: "Internal server error" });
     }
@@ -87,8 +85,7 @@ export const logout = async (req, res) => {
             maxAge: 0,
         });
         res.status(200).json({ message: "Logged out successfully" });
-    }
-    catch (error) {
+    } catch (error) {
         console.log("Error in logout route: ", error);
         res.status(500).json({ message: "Internal server error" });
     }
@@ -111,8 +108,7 @@ export const updateProfile = async (req, res) => {
         res.status(200).json({
             updatedUser,
         });
-    }
-    catch(error) {
+    } catch(error) {
         console.log("Error in updateProfile route: ", error);
         res.status(500).json({ message: "Internal server error" });
     }
@@ -124,8 +120,7 @@ export const checkAuth = async (req, res) => {
         res.status(200).json({
             user
         });
-    }
-    catch (error) {
+    } catch (error) {
         console.log("Error in checkAuth route: ", error);
         res.status(500).json({ message: "Internal server error" });
     }
