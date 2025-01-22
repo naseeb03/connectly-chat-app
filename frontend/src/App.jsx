@@ -10,10 +10,12 @@ import Navbar from './components/Navbar'
 import { useAuthStore } from './store/useAuthStore'
 import { Loader } from 'lucide-react'
 import { Toaster } from 'react-hot-toast'
+import { useThemeStore } from './store/useThemeStore'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore()
+  const [count, setCount] = useState(0);
+  const { theme } = useThemeStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -30,7 +32,7 @@ function App() {
   }
 
   return (
-    <>
+    <div data-theme={theme}>
       <Navbar />  
 
       <Routes>
@@ -42,7 +44,7 @@ function App() {
       </Routes>
 
       <Toaster />
-    </>
+    </div>
   )
 }
 
