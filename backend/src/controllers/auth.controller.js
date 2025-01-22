@@ -1,7 +1,7 @@
 import User from '../models/user.model.js';
 import { generateToken } from '../utils/token.utils.js';
 import bcrypt from 'bcryptjs';
-import cloudinary from '../lib/cloudinary.js';
+import { uploadToCloudinary } from '../utils/upload.utils.js';
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
@@ -99,7 +99,7 @@ export const updateProfile = async (req, res) => {
             return res.status(400).json({ message: "Profile picture is required" });
         }
 
-        const uploadResponse = await cloudinary.uploader.upload(profilePic);
+        const uploadResponse = await uploadToCloudinary(profilePic);
         const updatedUser = await User.findByIdAndUpdate(userID, {
             profilePic: uploadResponse.secure_url,
         }, { new: true });
