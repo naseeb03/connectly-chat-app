@@ -28,6 +28,7 @@ export const login = async (req, res) => {
             name: user.name,
             email: user.email,
             profilePic: user.profilePic,
+            createdAt: user.createdAt,
         });
     } catch (error) {
         console.log("Error in Login route: ", error);
@@ -54,10 +55,13 @@ export const signup = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        const profilePicUrl = `https://api.dicebear.com/6.x/initials/svg?seed=${encodeURIComponent(name)}`;
+
         const newUser = new User({
             name,
             email,
             password: hashedPassword,
+            profilePic: profilePicUrl,
         });
 
         if (newUser) {
@@ -99,7 +103,7 @@ export const updateProfile = async (req, res) => {
             return res.status(400).json({ message: "Profile picture is required" });
         }
 
-        const uploadResponse = await uploadToCloudinary(profilePic);
+        const uploadResponse = await uploadToCloudinary(profilePic, "profile");
         const updatedUser = await User.findByIdAndUpdate(userID, {
             profilePic: uploadResponse.secure_url,
         }, { new: true });

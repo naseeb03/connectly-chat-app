@@ -1,15 +1,15 @@
-import { create } from "zustand"
-import { axiosInstance } from "../lib/axios.js"
+import { create } from "zustand";
+import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { useChatStore } from "./useChatStore"; // Import the useChatStore
 
 export const useAuthStore = create((set) => ({
     authUser: null,
     isSigningUp: false,
     isLoggingIn: false,
     isUpdatingProfile: false,
-
     isCheckingAuth: true,
+    onlineUsers: [],
 
     checkAuth: async () => {
         try {
@@ -56,6 +56,7 @@ export const useAuthStore = create((set) => ({
         try {
             await axiosInstance.post('/auth/logout');
             set({ authUser: null });
+            useChatStore.setState({ selectedUser: null });
             toast.success("Logged out successfully");
         } catch (error) {
             toast.error(error.response.data.message);
@@ -76,4 +77,4 @@ export const useAuthStore = create((set) => ({
             set({ isUpdatingProfile: false });
         }
     },
-}))
+}));
