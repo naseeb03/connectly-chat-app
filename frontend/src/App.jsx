@@ -16,7 +16,9 @@ import Spinner from './components/Spinner'
 function App() {
   const [count, setCount] = useState(0);
   const { theme } = useThemeStore();
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+
+  console.log(onlineUsers);
 
   useEffect(() => {
     checkAuth();
