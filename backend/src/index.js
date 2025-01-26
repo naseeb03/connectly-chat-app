@@ -14,11 +14,14 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-}))
-app.use("/api/auth", authRoutes);
-app.use("/api/message", messageRoutes);
+}));
+
+app.use("/auth", authRoutes);
+app.use("/message", messageRoutes);
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
