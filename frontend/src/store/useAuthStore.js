@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useChatStore } from "./useChatStore";
 import { io } from 'socket.io-client';
 
+const BASE_URL = "https://connectly-chat-backend.vercel.app"
 // const BASE_URL = import.meta.env.MODE === "development" ? 'http://localhost:3000' : "/";
 
 export const useAuthStore = create((set, get) => ({
@@ -89,7 +90,7 @@ export const useAuthStore = create((set, get) => ({
         const { authUser } = get();
         if(!authUser || get().socket?.connected) return;
 
-        const socket = io(import.meta.env.BASE_URL, {
+        const socket = io(BASE_URL, {
             query: {
                 userId: authUser._id,
             },
