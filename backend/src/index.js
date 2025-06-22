@@ -39,6 +39,10 @@ app.use(cors({
     credentials: true 
 }));
 
+app.get('/health', (req, res) => {
+    res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
 // API routes - no /api prefix to keep consistent
 app.use("/auth", authRoutes);
 app.use("/message", messageRoutes);
