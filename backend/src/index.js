@@ -11,13 +11,31 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
+// Configure CORS to allow both development and production origins
+const allowedOrigins = [
+    'http://localhost:5173', // Vite dev server
+    'http://localhost:3000', // Alternative dev port
+    process.env.CLIENT_URL   // Production URL
+].filter(Boolean); // Remove undefined values
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+app.use(cors({ 
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        // Remove trailing slash for comparison
+        const cleanOrigin = origin.replace(/\/$/, '');
+        
+        if (allowedOrigins.some(allowed => allowed.replace(/\/$/, '') === cleanOrigin)) {
+            callback(null, true);
+        } else {
+            console.log('CORS blocked origin:', origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true 
 }));
 
 app.use("/auth", authRoutes);

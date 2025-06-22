@@ -7,9 +7,17 @@ const app = express();
 const server = http.createServer(app);
 dotenv.config();
 
+// Configure CORS for socket.io to allow both development and production origins
+const allowedOrigins = [
+    'http://localhost:5173', // Vite dev server
+    'http://localhost:3000', // Alternative dev port
+    process.env.CLIENT_URL   // Production URL
+].filter(Boolean); // Remove undefined values
+
 const io = new Server(server, {
     cors: {
-        origin: [process.env.CLIENT_URL],
+        origin: allowedOrigins,
+        credentials: true
     },
 });
 
