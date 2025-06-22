@@ -38,6 +38,7 @@ app.use(cors({
     credentials: true 
 }));
 
+// API routes - no /api prefix to keep consistent
 app.use("/auth", authRoutes);
 app.use("/message", messageRoutes);
 

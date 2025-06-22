@@ -89,8 +89,8 @@ export const useAuthStore = create((set, get) => ({
         const { authUser } = get();
         if(!authUser || get().socket?.connected) return;
 
-        // Use environment variable for backend URL
-        const socketUrl = import.meta.env.VITE_BASE_URL || (import.meta.env.MODE === "development" ? 'http://localhost:5000' : window.location.origin);
+        // Use the same environment variable pattern as axios
+        const socketUrl = import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "development" ? 'http://localhost:5000' : window.location.origin);
         
         const socket = io(socketUrl, {
             query: {
