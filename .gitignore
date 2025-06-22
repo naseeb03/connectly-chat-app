@@ -61,3 +61,5 @@ debug/
 # OS-generated files
 *.stackdump
 *.out
+
+*.pem
