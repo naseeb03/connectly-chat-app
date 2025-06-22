@@ -24,10 +24,8 @@ function App() {
     checkAuth();
   }, [checkAuth])
 
-  if(isCheckingAuth && !authUser) {
-    return (
-      <Spinner />
-    )
+  if (isCheckingAuth) {
+    return <Spinner />
   }
 
   return (
