@@ -10,11 +10,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -24,5 +24,6 @@ jobs:
           script: |
             cd ${{ secrets.EC2_PROJECT_PATH }}
             git pull origin main
+            cd backend
             npm install
-            pm2 restart backend 
+            pm2 restart backend
